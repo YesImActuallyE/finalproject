@@ -1,10 +1,11 @@
-Particle [] explosion = new Particle [100];
-
-PImage cannonImg;
-PImage baseImg;
 int explosionParticles = 100;
 int numStar = 1000;
 int maxBullets = 20;
+
+Particle [] explosion = new Particle[explosionParticles];
+
+PImage cannonImg;
+PImage baseImg;
 boolean keyRight = false;
 boolean keyLeft = false;
 float death;
@@ -67,14 +68,10 @@ void keyPressed(){
   if(keyCode==LEFT) keyLeft = true;
   if(keyCode==CONTROL){
     spawnBullet(guntipX,guntipY,gunAng);
-    for (int i=0; i<maxBullets; i++){
-      if(bX[i]==originX&&bY[i]==originY);    
-        for (int exp=0; i<explosion.length; i++)
-          explosion[exp].particleUpdate();
-    //if(bX=originX&&bY=originY);
+   // if(bX=originX&&bY=originY);
     }
    }
-  }
+ 
 
 
   
@@ -93,6 +90,8 @@ void draw(){
   drawBaseRotatedSprite(gunbaseX,gunbaseY,gunAng,cannonImg);
   image(baseImg,gunbaseX-baseImg.width/2,gunbaseY-baseImg.height/2+baseOffset);
   starField(starX,starY,speed);
+  updateExplosion(bX,bY,originX,originY);
+  rectMode(CENTER);
   fill(255,0,0);
   rect(originX,originY,50,50);
   
@@ -178,7 +177,6 @@ void starField(float x[], float y[], float speed[]){
 }
 
 class Particle {
- 
   float x;
   float y;
   
@@ -187,8 +185,9 @@ class Particle {
 
   
   Particle () {
-    x = originX;
-    y = originY;
+    x+=originX;
+    y+=originY;
+    
     
     velX = random (-10,10);
     velY = random (-10,10);
@@ -204,4 +203,14 @@ void particleUpdate () {
     fill (255);
     ellipse (x,y,10,10);
   }
+}
+
+void updateExplosion(float bX[],float bY[],float x,float y){
+      for (int i=0; i<explosion.length; i++)
+        explosion[i].particleUpdate();
+
+  }
+
+
+void drawExplosion(){
 }
