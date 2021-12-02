@@ -1,0 +1,108 @@
+//Declaring variables(Traver)
+  int planeXSpeed[];
+  int xCoor[];
+  int yCoor[];
+  int bomb[];
+ int bombYspeed[];
+ int level[];
+ int score[];
+void setup(){
+  size(800,800);
+  //Initializing variables to make planes and make the planes move (Traver)
+     xCoor=new int[5];
+   yCoor=new int[5];
+   planeXSpeed=new int[5];
+   bomb=new int[5];
+  bombYspeed=new int[5];
+  for(int i=0;i<planeXSpeed.length;i++){
+    //Filling the variables of the plane randomly(Traver)
+    planeXSpeed[i]=int(random(5,15));
+    xCoor[i]=int(random(1,369));
+    yCoor[i]=int(random(1,369));
+    bomb[i]=int(random(100,369));
+   bombYspeed[i]=int(random(1,5));
+   }
+  }
+
+void draw(){
+  //Making the plane move
+  background(52, 204, 235);
+   for(int i=0;i<planeXSpeed.length;i++){ 
+    fill(6, 138, 61);
+     rect(xCoor[i],yCoor[i],30,30);
+         xCoor[i]+=planeXSpeed[i];
+        if(xCoor[i]>=1100||xCoor[i]<=-300){
+      planeXSpeed[i]*=-1;
+     //Bombs dropping (Traver)
+   } for(int x=0;x<bombYspeed.length;x++){ 
+     fill(0);
+     ellipse(xCoor[x],bomb[x],10,10);
+     bomb[x]+=bombYspeed[x];
+     if(bomb[i]>8000){
+       bomb[i]=0;
+  }if(bX[i]=<xCoor[i]-15&&bX[i]>=xCoor+15&&bX[i]=<yCoor[i]-15&&bX[i]>=yCOor+15){
+       score+=1;
+     }if(score>=5){
+    level++;
+   }if(level++){
+     if(bomb[i]>8000-i*1000){
+       bomb[i]=0;
+
+     }
+  //Sun in the corner (Traver)
+    fill(252, 232, 3);
+    ellipse(750,50,100,100);
+
+    }
+   }
+   }
+        if(health=<0){
+      gameOn=false;
+      gameLost=true;
+    }
+    if(score>5){
+      gameWon=true;
+      gameOn=false;
+    }
+     textAlign(CENTER);
+ textSize(20);
+ text("Score:"+score,50,30);
+     }else if(gameLost==true){
+   //Lost Screen
+   background(255,0,0);
+    textAlign(CENTER);
+   textSize(42);
+  text("You Lose!",200,200);
+  textSize(15);
+  text("Loser",200,250);
+  textSize(30);
+   text("Press any key to play again",200,300);
+   }else if(gameWon==true){
+   //Win Screen
+    background(0,255,0);
+    textAlign(CENTER);
+    textSize(42);
+    text("You Win!",200,200);
+    textSize(30);
+    text("Press any key to play again",200,300);
+    if(score>20){
+    gameWon=true;
+    gameOn=false;
+    }else{
+  //start screen
+ background(0,0,255);
+  textAlign(CENTER);
+  textSize(42);
+  text("D-Day",200,200);
+  textSize(30);
+   text("Press any key to play",200,300);
+   textSize(12);
+   text("Shoot the planes, but do it before the bombs kill you! Use the arrow keys to control the gun and the fire button to fire!",200,350);
+}
+ int health=500;
+        if(bomb[i]=gunbaseY){
+           health-=50;
+         if(health=<0){
+
+    
+
