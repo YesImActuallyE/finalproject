@@ -1,9 +1,15 @@
 int explosionParticles = 100;
 int numStar = 1000;
 int maxBullets = 20;
-
-Particle [] explosion = new Particle[explosionParticles];
-
+//Declaring variables(Traver)
+int planeXSpeed[];
+float xCoor[];
+float yCoor[];
+int bomb[];
+int bombYspeed[];
+int level[];
+int score[];
+//Declaring variables(Teague)
 PImage cannonImg;
 PImage baseImg;
 boolean keyRight = false;
@@ -18,8 +24,12 @@ float gunLength;
 float angNum = 0.05;
 float bSpeed = 10;
 float baseOffset;
-float originX;
-float originY;
+float velX;
+float velY;
+float y;
+float x;   
+//float originX;
+//float originY;
 boolean[] explosionTrigger = new boolean[explosionParticles];
 boolean[] bulletAlive = new boolean[maxBullets];
 float[] Pexplosion = new float[explosionParticles];
@@ -37,6 +47,7 @@ float[] pANG = new float[explosionParticles];
 //float[] originY = new float[explosionParticles];
 
 void setup(){
+  //setting up turret(Teague)
   size(800,800,P3D);
   cannonImg = loadImage("rtype.png");
   baseImg = loadImage("base.png");
@@ -46,8 +57,6 @@ void setup(){
   guntipX = 400;
   guntipY = 600;
   baseOffset = 10;
-  originX = 400;
-  originY = 400;
   for(int i = 0; i<maxBullets; i++){
     bulletAlive[i] = false;
   } 
@@ -57,12 +66,22 @@ void setup(){
     speed[i] = random(1, 5);
   }
    smooth ();
- 
- for (int i=0; i<explosion.length; i++) {
-   explosion [i] = new Particle ();
- }
-}
 
+    //Initializing variables to make planes and make the planes move (Traver)
+   xCoor=new float[5];
+   yCoor=new float[5];
+   planeXSpeed=new int[5];
+   bomb=new int[5];
+  bombYspeed=new int[5];
+  for(int i=0;i<planeXSpeed.length;i++){
+    //Filling the variables of the plane randomly(Traver)
+    planeXSpeed[i]=int(random(5,15));
+    xCoor[i]=int(random(1,369));
+    yCoor[i]=int(random(1,369));
+    bomb[i]=int(random(100,369));
+   bombYspeed[i]=int(random(1,5));  
+   } 
+  }
 void keyPressed(){
   if(keyCode==RIGHT) keyRight = true;
   if(keyCode==LEFT) keyLeft = true;
@@ -81,6 +100,7 @@ void keyReleased(){
 }
 
 void draw(){ 
+  //planes and bullets and explosion(teague)
   guntipX=gunbaseX+sin(gunAng)*gunLength;
   guntipY=gunbaseY-cos(gunAng)*gunLength;
   moveGun();
@@ -90,16 +110,39 @@ void draw(){
   drawBaseRotatedSprite(gunbaseX,gunbaseY,gunAng,cannonImg);
   image(baseImg,gunbaseX-baseImg.width/2,gunbaseY-baseImg.height/2+baseOffset);
   starField(starX,starY,speed);
-  updateExplosion(bX,bY,originX,originY);
-  rectMode(CENTER);
-  fill(255,0,0);
-  rect(originX,originY,50,50);
+
   
   //explosion(explosionParticles,pX,pY,pANG,explosionTrigger,originX,originY);
   
 
   //line(gunbaseX,gunbaseY,guntipX,guntipY);
+   for(int i=0;i<planeXSpeed.length;i++){ 
+    fill(6, 138, 61);
+     rect(xCoor[i],yCoor[i],30,30);
+         xCoor[i]+=planeXSpeed[i];
+        if(xCoor[i]>=1100||xCoor[i]<=-300){
+      planeXSpeed[i]*=-1;
+     //Bombs dropping (Traver)
+   } for(int x=0;x<bombYspeed.length;x++){ 
+     fill(0);
+     ellipse(xCoor[x],bomb[x],10,10);
+     bomb[x]+=bombYspeed[x];
+     if(bomb[i]>8000){
+       bomb[i]=0;
+  /*}if(bX[i]=<xCoor[i]-15&&bX[i]>=xCoor+15&&bX[i]=<yCoor[i]-15&&bX[i]>=yCoor+15){
+       score+=1;
+     }if(score>=5){
+    level++;
+   }if(level++){
+     if(bomb[i]>8000-i*1000){
+       bomb[i]=0;
+     }*/
+   }
+   }
+   }
 }
+
+
 
 void moveGun(){
   if(keyRight && gunAng<HALF_PI){
@@ -176,41 +219,37 @@ void starField(float x[], float y[], float speed[]){
   }
 }
 
-class Particle {
-  float x;
-  float y;
-  
-  float velX;
-  float velY;
+
 
   
-  Particle () {
-    x+=originX;
-    y+=originY;
-    
-    
-    velX = random (-10,10);
-    velY = random (-10,10);
-    
-   
-  }
-  
-void particleUpdate () {
-    
-    x+=velX;
-    y+=velY;
-    
-    fill (255);
-    ellipse (x,y,10,10);
-  }
-}
-
-void updateExplosion(float bX[],float bY[],float x,float y){
-      for (int i=0; i<explosion.length; i++)
-        explosion[i].particleUpdate();
-
-  }
-
-
 void drawExplosion(){
+ if(keyCode==CONTROL)
+  for(int i = 0; i<maxBullets; i++){
+   if(bX[i]==xCoor[i]&&bY[i]==yCoor[i]){
+     updateExplosion(xCoor,yCoor);
+   }
+ }
 }
+
+void updateExplosion(float x[],float y[]){
+      for (int i=0; i<Pexplosion.length; i++)
+        particleUpdate();
+}
+
+void particleUpdate (){
+  for(int i = 0; i<5; i++){x+=xCoor[i]; y+=yCoor[i];}
+  velX = random (-10,10);
+  velY = random (-10,10);
+  x+=velX;
+  y+=velY;
+  fill (255);
+  ellipse (x,y,10,10);
+}
+
+
+
+
+
+
+
+ 
